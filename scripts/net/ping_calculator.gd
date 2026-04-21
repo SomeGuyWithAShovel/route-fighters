@@ -34,7 +34,7 @@ func get_server_time() -> int:
 func send_pings() -> void:
 	ping_results.clear();
 	for i in range(SERVER_RTT_BUFFER_SIZE):
-		Server_request_time(Time.get_ticks_msec());
+		Server_request_time.rpc_id(1, Time.get_ticks_msec());
 	await get_tree().create_timer(TIME_WAITING_FOR_PINGS).timeout;
 	calculate_ping();
 	
@@ -47,12 +47,12 @@ func calculate_ping() -> void:
 	average_ping /= (len(ordered_pings) - 2);
 	current_ping = roundi(average_ping);
 	
+@rpc("any_peer", "call_remote", "unreliable")
+func Server_request_time(initial_client_time : int) -> void:
+	var sender := multiplayer.get_remote_sender_id();
+	Client_recieve_server_time.rpc_id(sender, initial_client_time, Time.get_ticks_msec());
 	
 @rpc("authority", "call_remote", "unreliable")
-func Server_request_time(initial_client_time : int) -> void:
-	Client_recieve_server_time(initial_client_time, Time.get_ticks_msec());
-	
-@rpc("any_peer", "call_remote", "unreliable")
 func Client_recieve_server_time(initial_client_time : int, server_time : int) -> void:
 	var current_client_time : int = Time.get_ticks_msec();
 	var RTT := current_client_time - initial_client_time;

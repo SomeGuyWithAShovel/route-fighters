@@ -13,8 +13,8 @@ enum Kind {
 	GUARD
 };
 
-@warning_ignore("unused_parameter")
 static func duration_in_frames(move : Kind) -> int:
+	# TODO
 	return 42;
 
 # Tout ce qui est spritesheet, durée des moves, etc. devrait être ici.
