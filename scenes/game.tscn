@@ -1,3 +1,42 @@
 [gd_scene format=3 uid="uid://57h88y3sgdsr"]
 
-[node name="Game" type="Node" unique_id=1922453534]
+[ext_resource type="Script" uid="uid://cdxkij2mpuun7" path="res://scripts/game.gd" id="1_uwrxv"]
+
+[sub_resource type="Gradient" id="Gradient_8cj0n"]
+colors = PackedColorArray(0, 0, 1, 1, 0, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_uwrxv"]
+gradient = SubResource("Gradient_8cj0n")
+width = 1152
+height = 648
+fill_to = Vector2(0, 1)
+
+[sub_resource type="Gradient" id="Gradient_uwrxv"]
+offsets = PackedFloat32Array(0.95, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_yqjtg"]
+gradient = SubResource("Gradient_uwrxv")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[node name="Game" type="Node" unique_id=1922453534 node_paths=PackedStringArray("players_parent_node", "player_starting_nodes")]
+script = ExtResource("1_uwrxv")
+players_parent_node = NodePath("Players")
+player_starting_nodes = [NodePath("Players/StartPos1"), NodePath("Players/StartPos2")]
+
+[node name="Background" type="Sprite2D" parent="." unique_id=643138190]
+texture = SubResource("GradientTexture2D_uwrxv")
+centered = false
+
+[node name="Players" type="Node2D" parent="." unique_id=1351940845]
+position = Vector2(576, 648)
+
+[node name="StartPos1" type="Sprite2D" parent="Players" unique_id=1571291786]
+position = Vector2(-407, -130)
+texture = SubResource("GradientTexture2D_yqjtg")
+
+[node name="StartPos2" type="Sprite2D" parent="Players" unique_id=121035891]
+position = Vector2(438, -114)
+texture = SubResource("GradientTexture2D_yqjtg")

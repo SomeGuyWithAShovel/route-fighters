@@ -1,7 +1,31 @@
 [gd_scene format=3 uid="uid://bjl1j0wx7n166"]
 
+[ext_resource type="PackedScene" uid="uid://57h88y3sgdsr" path="res://scenes/game.tscn" id="1_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://b0wbuavp8jywl" path="res://scenes/ui/main_menu.tscn" id="1_o5qli"]
 
-[node name="Main" type="Node" unique_id=2105370211]
+[sub_resource type="GDScript" id="GDScript_o5qli"]
+script/source = "# build in script : save it as a file if you prefer
+extends Node
+
+@export
+var game_scene : PackedScene;
+
+@export var menu_node : Node;
+
+func move_to_game() -> void :
+	
+	assert(game_scene != null);
+	if (menu_node != null) :
+		var game_node : Node = game_scene.instantiate();
+		add_child(game_node);
+		menu_node.game_started();
+		pass;
+	return;
+"
+
+[node name="Main" type="Node" unique_id=2105370211 node_paths=PackedStringArray("menu_node")]
+script = SubResource("GDScript_o5qli")
+game_scene = ExtResource("1_0wfyh")
+menu_node = NodePath("MainMenu")
 
 [node name="MainMenu" parent="." unique_id=605103506 instance=ExtResource("1_o5qli")]

@@ -1,9 +1,16 @@
 [gd_scene format=3 uid="uid://b0wbuavp8jywl"]
 
 [sub_resource type="GDScript" id="GDScript_87aya"]
-script/source = "extends Control
+script/source = "# build in script : save it as a file if you prefer
+extends Control
 
-# TODO
+# TODO : 
+# right now, it is created, but instantly skipped, because there is command-line arguments to bypass this step
+# if there weren't, we would have to implement correctly this file
+
+func game_started() -> void :
+	queue_free();
+	return;
 
 func _on_btn_host_pressed() -> void :
 	return;
