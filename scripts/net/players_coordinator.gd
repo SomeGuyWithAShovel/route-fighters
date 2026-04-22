@@ -9,6 +9,9 @@ var player_starting_positions : Array[Node2D];
 var players_node_parent : Node = null;
 
 var players : Array[Character] = [];
+# we should use somewhere our own system of player ids,
+# because server is player 1 and client is player 992135560 (it's random)
+# I don't think we want an array of size 992135560 just for 2 elements
 
 var ping_calculator : PingCalculator = null;
 

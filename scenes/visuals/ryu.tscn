@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://bjiwfby08ii7s"]
+[gd_scene format=3 uid="uid://bjiwfby08ii7s"]
 
 [ext_resource type="PackedScene" uid="uid://b06lhgiibdt53" path="res://scenes/visuals/player.tscn" id="1_cgdan"]
 [ext_resource type="Texture2D" uid="uid://cygsiexplibau" path="res://assets/animations/ryu_guard.png" id="2_0xd2s"]

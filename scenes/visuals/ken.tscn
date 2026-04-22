@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://blkayxqxngxau"]
+[gd_scene format=3 uid="uid://blkayxqxngxau"]
 
 [ext_resource type="PackedScene" uid="uid://b06lhgiibdt53" path="res://scenes/visuals/player.tscn" id="1_anvrq"]
 [ext_resource type="Texture2D" uid="uid://crlwsb5skm3yf" path="res://assets/animations/ken_guard.png" id="2_x7gpa"]
