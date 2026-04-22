@@ -19,6 +19,9 @@ func correct_actions(_net_action_buffer : ActionBuffer) -> void:
 	# TODO : Comparer les deux bestiaux et corriger self en fonction du distant qui fait autorité
 	pass;
 
+func get_last_move() -> Move.Kind:
+	return player_move_buffer[newest_frame-1];
+
 func add_move(move : Move.Kind, at : Vector2) -> void:
 	var duration_in_frames := Move.duration_in_frames(move);
 	
