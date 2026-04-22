@@ -1,6 +1,6 @@
-extends Object
 # Un pour chaque joueur adverse (en théorie qu'un ?)
 class_name ActionBuffer
+extends RefCounted
 
 const DEFAULT_REWIND_FRAMES : int = ceili(3 * GlobalConstant.TARGET_FPS);
 
@@ -15,7 +15,7 @@ func set_rewind_time(frames : int) -> void:
 	player_move_buffer.resize(frames);
 	player_position_buffer.resize(frames);
 
-func correct_actions(net_action_buffer : ActionBuffer) -> void:
+func correct_actions(_net_action_buffer : ActionBuffer) -> void:
 	# TODO : Comparer les deux bestiaux et corriger self en fonction du distant qui fait autorité
 	pass;
 

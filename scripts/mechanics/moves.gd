@@ -13,7 +13,7 @@ enum Kind {
 	GUARD
 };
 
-static func duration_in_frames(move : Kind) -> int:
+static func duration_in_frames(_move : Kind) -> int:
 	# TODO
 	return 42;
 

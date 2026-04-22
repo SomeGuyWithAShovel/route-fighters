@@ -1,5 +1,5 @@
-extends Node
 class_name PingCalculator
+extends Node
 
 # JSP si Godot est bien pour calculer le ping...
 

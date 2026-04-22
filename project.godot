@@ -8,10 +8,23 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="Route Fighters"
-config/features=PackedStringArray("4.5", "GL Compatibility")
+run/main_scene="uid://bjl1j0wx7n166"
+config/features=PackedStringArray("4.6", "GL Compatibility")
+
+[autoload]
+
+GlobalCoordinator="*uid://dt5bj2hx5cajj"
+
+[dotnet]
+
+project/assembly_name="Route Fighters"
 
 [rendering]
 

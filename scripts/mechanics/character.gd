@@ -10,7 +10,7 @@ signal input_move(character : Character, move : Move.Kind);
 func _ready() -> void:
 	print("Indice du joueur : ", player_id);
 
-func show_move(move : Move.Kind, frame : int) -> void:
+func show_move(_move : Move.Kind, _frame : int) -> void:
 	# TODO
 	return;
 	
@@ -18,7 +18,7 @@ func is_doing_move() -> bool:
 	# TODO
 	return false;
 	
-func _input(input : InputEvent) -> void:
+func _input(__input : InputEvent) -> void:
 	
 	# TODO : Traduire input en Move et emit le bon signal
 	

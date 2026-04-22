@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://dt5bj2hx5cajj"]
+
+[ext_resource type="Script" uid="uid://dx2gsxh7gc7h7" path="res://scripts/global_coordinator.gd" id="1_e18if"]
+[ext_resource type="Script" uid="uid://d1ig7dy5bo6qp" path="res://scripts/net/multiplayer_api_coordinator.gd" id="2_55e04"]
+[ext_resource type="Script" uid="uid://cdgodqmhbllvw" path="res://scripts/net/players_coordinator.gd" id="3_55e04"]
+
+[node name="GlobalCoordinator" type="Node" unique_id=1390120457]
+script = ExtResource("1_e18if")
+
+[node name="MultiplayerAPICoordinator" type="Node" parent="." unique_id=491360195]
+script = ExtResource("2_55e04")
+
+[node name="PlayersCoordinator" type="Node" parent="." unique_id=153784986]
+script = ExtResource("3_55e04")
