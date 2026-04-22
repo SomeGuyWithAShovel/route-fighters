@@ -15,7 +15,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="Route Fighters"
-run/main_scene="uid://bjl1j0wx7n166"
+run/main_scene="uid://57h88y3sgdsr"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 
 [autoload]

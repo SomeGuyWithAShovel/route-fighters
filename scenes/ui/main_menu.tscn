@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://b0wbuavp8jywl"]
+
+[sub_resource type="GDScript" id="GDScript_87aya"]
+script/source = "extends Control
+
+# TODO
+
+func _on_btn_host_pressed() -> void :
+	return;
+
+
+func _on_btn_join_pressed() -> void :
+	return;
+
+
+func _on_btn_quit_pressed() -> void :
+	return;
+"
+
+[node name="MainMenu" type="Control" unique_id=605103506]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("GDScript_87aya")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1594914259]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -22.0
+offset_top = -33.0
+offset_right = 22.0
+offset_bottom = 33.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="BtnHost" type="Button" parent="VBoxContainer" unique_id=1009490257]
+layout_mode = 2
+text = "Host"
+
+[node name="BtnJoin" type="Button" parent="VBoxContainer" unique_id=652211525]
+layout_mode = 2
+text = "Join"
+
+[node name="BtnQuit" type="Button" parent="VBoxContainer" unique_id=1035441164]
+layout_mode = 2
+text = "Quit"
+
+[connection signal="pressed" from="VBoxContainer/BtnHost" to="." method="_on_btn_host_pressed"]
+[connection signal="pressed" from="VBoxContainer/BtnJoin" to="." method="_on_btn_join_pressed"]
+[connection signal="pressed" from="VBoxContainer/BtnQuit" to="." method="_on_btn_quit_pressed"]
