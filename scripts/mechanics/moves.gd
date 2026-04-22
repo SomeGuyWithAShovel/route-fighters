@@ -10,7 +10,8 @@ enum Kind {
 	JUMP,
 	KICK,
 	PUNCH,
-	GUARD
+	GUARD,
+	SHOOT
 };
 
 static func duration_in_frames(_move : Kind) -> int:

@@ -2,12 +2,14 @@
 
 [ext_resource type="PackedScene" uid="uid://b06lhgiibdt53" path="res://scenes/visuals/player.tscn" id="1_anvrq"]
 [ext_resource type="Texture2D" uid="uid://crlwsb5skm3yf" path="res://assets/animations/ken_guard.png" id="2_x7gpa"]
+[ext_resource type="Texture2D" uid="uid://cw3oo6iwa7f1q" path="res://assets/animations/ken_hurt.png" id="3_6mq6k"]
 [ext_resource type="Texture2D" uid="uid://ub5bhauiq08t" path="res://assets/animations/ken_idle.png" id="3_da5rq"]
 [ext_resource type="Texture2D" uid="uid://b3wntjcsvis3x" path="res://assets/animations/ken_jump.png" id="4_6mq6k"]
 [ext_resource type="Texture2D" uid="uid://sdan2llugh2s" path="res://assets/animations/ken_kick.png" id="5_hl761"]
 [ext_resource type="Texture2D" uid="uid://cjns84mbuj6jo" path="res://assets/animations/ken_punch.png" id="6_2ejne"]
 [ext_resource type="Texture2D" uid="uid://bintrbuqhbllk" path="res://assets/animations/ken_walk2.png" id="7_hfb7b"]
 [ext_resource type="Texture2D" uid="uid://snxg2fcstu75" path="res://assets/animations/ken_walk1.png" id="8_cav0d"]
+[ext_resource type="Texture2D" uid="uid://bw4jy5dvfxlbv" path="res://assets/animations/ken_shoot.png" id="8_hl761"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tt7e2"]
 atlas = ExtResource("2_x7gpa")
@@ -16,6 +18,22 @@ region = Rect2(0, 0, 80, 96)
 [sub_resource type="AtlasTexture" id="AtlasTexture_qrs6q"]
 atlas = ExtResource("2_x7gpa")
 region = Rect2(80, 0, 80, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2ejne"]
+atlas = ExtResource("3_6mq6k")
+region = Rect2(0, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hfb7b"]
+atlas = ExtResource("3_6mq6k")
+region = Rect2(96, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cav0d"]
+atlas = ExtResource("3_6mq6k")
+region = Rect2(192, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_swjo3"]
+atlas = ExtResource("3_6mq6k")
+region = Rect2(288, 0, 96, 96)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_k46mw"]
 atlas = ExtResource("3_da5rq")
@@ -89,6 +107,22 @@ region = Rect2(128, 0, 128, 96)
 atlas = ExtResource("6_2ejne")
 region = Rect2(256, 0, 128, 96)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_em1ad"]
+atlas = ExtResource("8_hl761")
+region = Rect2(0, 0, 128, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o0wgc"]
+atlas = ExtResource("8_hl761")
+region = Rect2(128, 0, 128, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cbyhd"]
+atlas = ExtResource("8_hl761")
+region = Rect2(256, 0, 128, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t81w2"]
+atlas = ExtResource("8_hl761")
+region = Rect2(384, 0, 128, 96)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_w83gs"]
 atlas = ExtResource("7_hfb7b")
 region = Rect2(0, 0, 80, 96)
@@ -144,6 +178,23 @@ animations = [{
 }],
 "loop": true,
 "name": &"guard",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2ejne")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hfb7b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cav0d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_swjo3")
+}],
+"loop": true,
+"name": &"hurt",
 "speed": 5.0
 }, {
 "frames": [{
@@ -222,6 +273,23 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_em1ad")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o0wgc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cbyhd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t81w2")
+}],
+"loop": true,
+"name": &"shoot",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_w83gs")
 }, {
 "duration": 1.0,
@@ -264,10 +332,10 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Node" type="Node2D"]
+[node name="Node" type="Node2D" unique_id=1714301152]
 
-[node name="Player" parent="." instance=ExtResource("1_anvrq")]
+[node name="Player" parent="." unique_id=1220903932 instance=ExtResource("1_anvrq")]
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=1407327946]
 sprite_frames = SubResource("SpriteFrames_swjo3")
-animation = &"kick"
+animation = &"shoot"

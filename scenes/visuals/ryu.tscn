@@ -3,11 +3,13 @@
 [ext_resource type="PackedScene" uid="uid://b06lhgiibdt53" path="res://scenes/visuals/player.tscn" id="1_cgdan"]
 [ext_resource type="Texture2D" uid="uid://cygsiexplibau" path="res://assets/animations/ryu_guard.png" id="2_0xd2s"]
 [ext_resource type="Texture2D" uid="uid://chi1f66m0evce" path="res://assets/animations/ryu_idle.png" id="3_8p6jp"]
+[ext_resource type="Texture2D" uid="uid://cws1crm7fgrbn" path="res://assets/animations/ryu_hurt.png" id="3_k4e4v"]
 [ext_resource type="Texture2D" uid="uid://dq8r7rbj7epl7" path="res://assets/animations/ryu_jump.png" id="4_k4e4v"]
 [ext_resource type="Texture2D" uid="uid://b582dgcve7jcc" path="res://assets/animations/ryu_kick.png" id="5_y8qsg"]
 [ext_resource type="Texture2D" uid="uid://mgktsh1kc4oa" path="res://assets/animations/ryu_punch.png" id="6_38s3k"]
 [ext_resource type="Texture2D" uid="uid://c2edgqct45dyh" path="res://assets/animations/ryu_walk1.png" id="7_j8syi"]
 [ext_resource type="Texture2D" uid="uid://dg766eqlma0fo" path="res://assets/animations/ryu_walk2.png" id="8_pa43j"]
+[ext_resource type="Texture2D" uid="uid://cjseb5xhyb54d" path="res://assets/animations/ryu_shoot.png" id="8_y8qsg"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_31tvn"]
 atlas = ExtResource("2_0xd2s")
@@ -16,6 +18,22 @@ region = Rect2(0, 0, 80, 96)
 [sub_resource type="AtlasTexture" id="AtlasTexture_hvohh"]
 atlas = ExtResource("2_0xd2s")
 region = Rect2(80, 0, 80, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_38s3k"]
+atlas = ExtResource("3_k4e4v")
+region = Rect2(0, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j8syi"]
+atlas = ExtResource("3_k4e4v")
+region = Rect2(96, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pa43j"]
+atlas = ExtResource("3_k4e4v")
+region = Rect2(192, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_epwb1"]
+atlas = ExtResource("3_k4e4v")
+region = Rect2(288, 0, 96, 96)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2qdy3"]
 atlas = ExtResource("3_8p6jp")
@@ -89,6 +107,22 @@ region = Rect2(127, 0, 127, 95)
 atlas = ExtResource("6_38s3k")
 region = Rect2(254, 0, 127, 95)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_ubryu"]
+atlas = ExtResource("8_y8qsg")
+region = Rect2(0, 0, 128, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2hipx"]
+atlas = ExtResource("8_y8qsg")
+region = Rect2(128, 0, 128, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6b3vj"]
+atlas = ExtResource("8_y8qsg")
+region = Rect2(256, 0, 128, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_owlep"]
+atlas = ExtResource("8_y8qsg")
+region = Rect2(384, 0, 128, 96)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_cl8xa"]
 atlas = ExtResource("7_j8syi")
 region = Rect2(0, 0, 80, 96)
@@ -144,6 +178,23 @@ animations = [{
 }],
 "loop": true,
 "name": &"guard",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_38s3k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j8syi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pa43j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_epwb1")
+}],
+"loop": true,
+"name": &"hurt",
 "speed": 5.0
 }, {
 "frames": [{
@@ -222,6 +273,23 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_ubryu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2hipx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6b3vj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_owlep")
+}],
+"loop": true,
+"name": &"shoot",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_cl8xa")
 }, {
 "duration": 1.0,
@@ -264,10 +332,12 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Node" type="Node2D"]
+[node name="Node" type="Node2D" unique_id=1354944682]
 
-[node name="Player" parent="." instance=ExtResource("1_cgdan")]
+[node name="Player" parent="." unique_id=2038331640 instance=ExtResource("1_cgdan")]
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=999083783]
 sprite_frames = SubResource("SpriteFrames_epwb1")
-animation = &"walk_front"
+animation = &"shoot"
+frame = 3
+frame_progress = 0.87989753
