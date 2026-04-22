@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://bhd0xfjk8p0tp"]
+
+[ext_resource type="Script" uid="uid://8y4e31bl2inu" path="res://scripts/mechanics/character.gd" id="1_6gqf7"]
+[ext_resource type="Texture2D" uid="uid://cygsiexplibau" path="res://assets/animations/ryu_guard.png" id="1_mxj2r"]
+
+[node name="Node2D" type="Node2D" unique_id=1446872133]
+script = ExtResource("1_6gqf7")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1955005097]
+texture = ExtResource("1_mxj2r")

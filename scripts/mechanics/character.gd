@@ -1,7 +1,7 @@
-extends Node
+extends Node2D
 class_name Character
 
-var player_id; # Set par le coordinateur, pas touche !
+var player_id : int; # Set par le coordinateur, pas touche !
 
 # Code pour la gestion des inputs du personnage
 

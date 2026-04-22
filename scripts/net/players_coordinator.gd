@@ -1,9 +1,12 @@
 class_name PlayersCoordinator
 extends Node
 
-@export
-var local_player_scene : PackedScene;
-var remote_player_scene : PackedScene;
+@export_group("Player Scenes")
+@export var local_player_scene : PackedScene;
+@export var remote_player_scene : PackedScene;
+
+var player_starting_positions : Array[Node2D];
+var players_node_parent : Node = null;
 
 var players : Array[Character] = [];
 
@@ -16,16 +19,33 @@ var local_action_buffer : ActionBuffer;
 # dictionnaire player_id -> action_buffer
 var other_player_inputs : Dictionary[int, ActionBuffer];
 
+func init_from_game_node(game_node : GameNode) -> void :
+	assert(game_node != null);
+	
+	assert(game_node.player_starting_positions.size() == 2);
+	assert(game_node.player_starting_positions[0] != null);
+	assert(game_node.player_starting_positions[1] != null);
+	player_starting_positions = game_node.player_starting_positions;
+	
+	assert(game_node.player)
+	return;
+
 func create_local_player(player_id : int) -> void :
 	assert(local_player_scene != null);
-	var new_player = local_player_scene.instantiate();
-	new_player.player_index = player_id;
+	var new_player : Character = local_player_scene.instantiate();
+	assert(new_player != null);
+	
+	new_player.player_id = player_id;
 	local_player_id = player_id;
 	
-	# TODO: Set sa position, etc..
-	# add to tree
+	new_player.transform = player_starting_positions[0].transform;
+	
+	assert(players_node_parent != null);
+	players_node_parent.add_child(new_player);
+	
 	new_player.input_move.connect(local_player_moved);
 	players.append(new_player);
+	
 	return;
 
 func create_remote_player(player_id : int) -> void :
@@ -34,7 +54,8 @@ func create_remote_player(player_id : int) -> void :
 	new_player.player_id = player_id;
 	
 	# TODO: Set sa position, etc..
-	# add to tree
+	assert(players_node_parent != null);
+	players_node_parent.add_child(new_player);
 	players.append(new_player);
 	return;
 	
