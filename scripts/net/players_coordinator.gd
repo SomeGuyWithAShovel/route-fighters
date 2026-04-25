@@ -17,6 +17,7 @@ var ping_calculator : PingCalculator = null;
 
 var local_player_id : int;
 var local_action_buffer : ActionBuffer;
+var ggpo : GGPO;
 
 # C'est pas beaucoup plus dur ni lourd d'implémenter pour n joueurs, même si on en a que 2
 # dictionnaire player_id -> action_buffer
@@ -72,9 +73,9 @@ func warn_players() -> void:
 
 
 func local_player_moved(local_player : Character, move : Move.Kind) -> void :
-	local_action_buffer.add_move(move, local_player.global_position);
 	var server_time := ping_calculator.get_server_time();
-	var net_history := NetLocalGameHistory.from_player_input(
+	local_action_buffer.add_move(move, local_player.global_position, server_time);
+	var net_history := NetLocalGameHistory.new(
 		local_player.player_id, 
 		server_time, 
 		local_action_buffer
@@ -94,4 +95,5 @@ func Server_player_move(history : NetLocalGameHistory) -> void:
 @rpc("authority", "call_remote", "unreliable")
 func Client_receive_player_move(history : NetLocalGameHistory) -> void:
 	var remote_player_input := history.to_player_input();
-	other_player_inputs[history.player_id].correct_actions(remote_player_input);
+	var server_time := ping_calculator.get_server_time();
+	other_player_inputs[history.player_id].correct_actions(remote_player_input, server_time, ggpo);

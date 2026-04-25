@@ -1,4 +1,5 @@
 extends Node
+class_name GGPO
 
 # Un pour chaque joueur adverse
 @onready var character : Character;
