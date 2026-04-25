@@ -5,4 +5,4 @@ class_name GGPO
 @onready var character : Character;
 
 func predict_move(action_buffer : ActionBuffer) -> Move.Kind:
-	return action_buffer.get_last_move();
+	return action_buffer.get_last_move().kind;
