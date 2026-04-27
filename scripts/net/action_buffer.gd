@@ -61,7 +61,7 @@ func find_common_sub_buffer(_net_action_buffer : ActionBuffer) -> CommonIndices:
 		res.cur_first = cur_i;
 	return res;
 	
-func correct_actions(net_action_buffer : ActionBuffer, current_server_time : int, ggpo : GGPO) -> void:
+func correct_actions(net_action_buffer : ActionBuffer, current_server_time : int, ggpo : GGPO) -> MoveInformation:
 	var net_last := net_action_buffer.get_last_move();
 	var cur_last := self.get_last_move();
 	assert(net_last.server_time_started < cur_last.server_time_started, 
@@ -74,14 +74,15 @@ func correct_actions(net_action_buffer : ActionBuffer, current_server_time : int
 		player_move_buffer[cur_i] = net_action_buffer.player_move_buffer[net_i];
 	
 	newest_frame -= len(player_move_buffer) - common_indices.cur_first;
-	resimulate(current_server_time, ggpo);
+	return resimulate(current_server_time, ggpo);
 	
-func resimulate(server_time : int, ggpo : GGPO) -> void:
+func resimulate(server_time : int, ggpo : GGPO) -> MoveInformation:
 	var last_move := get_last_move();
 	while last_move.server_time_started + Move.duration_in_frames(last_move.kind) < server_time:
 		ggpo.predict_move(self);
 		last_move = get_last_move();
-		
+	return get_last_move();
+	
 func get_last_move() -> MoveInformation:
 	return player_move_buffer[newest_frame-1];
 

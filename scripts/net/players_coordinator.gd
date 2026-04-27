@@ -8,7 +8,7 @@ extends Node
 var player_starting_positions : Array[Node2D];
 var players_node_parent : Node = null;
 
-var players : Array[Character] = [];
+var players : Dictionary[int, Character] = {};
 # we should use somewhere our own system of player ids,
 # because server is player 1 and client is player 992135560 (it's random)
 # I don't think we want an array of size 992135560 just for 2 elements
@@ -48,7 +48,7 @@ func create_local_player(player_id : int) -> void :
 	players_node_parent.add_child(new_player);
 	
 	new_player.input_move.connect(local_player_moved);
-	players.append(new_player);
+	players[player_id] = new_player;
 	
 	return;
 
@@ -60,7 +60,7 @@ func create_remote_player(player_id : int) -> void :
 	# TODO: Set sa position, etc..
 	assert(players_node_parent != null);
 	players_node_parent.add_child(new_player);
-	players.append(new_player);
+	players[player_id] = new_player;
 	return;
 	
 
@@ -96,4 +96,5 @@ func Server_player_move(history : NetLocalGameHistory) -> void:
 func Client_receive_player_move(history : NetLocalGameHistory) -> void:
 	var remote_player_input := history.to_player_input();
 	var server_time := ping_calculator.get_server_time();
-	other_player_inputs[history.player_id].correct_actions(remote_player_input, server_time, ggpo);
+	var corrected_move := other_player_inputs[history.player_id].correct_actions(remote_player_input, server_time, ggpo);
+	players[history.player_id].set_current_move(corrected_move);
