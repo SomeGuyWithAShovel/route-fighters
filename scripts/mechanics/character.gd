@@ -34,8 +34,7 @@ func show_move(_move : Move.Kind, _frame : int) -> void:
 	return;
 	
 func is_doing_move() -> bool:
-	# TODO
-	return false;
+	return _current_move.kind != Move.Kind.NOTHING;
 	
 func set_current_move(move : MoveInformation) -> void:
 	_current_move = move;
@@ -46,6 +45,21 @@ func _input(__input : InputEvent) -> void:
 	
 	# On peut pas faire 2 moves en même temps
 	if is_doing_move(): 
-		return;
+		return
 	
-	input_move.emit(self, Move.Kind.LEFT);
+	if __input.is_action_pressed("move_left"):
+		local_set_current_move(self, Move.Kind.LEFT)
+		
+	elif __input.is_action_pressed("move_right"):
+		local_set_current_move(self, Move.Kind.RIGHT)
+		
+	elif __input.is_action_pressed("jump"):
+		local_set_current_move(self, Move.Kind.JUMP)
+	elif __input.is_action_pressed("shoot"):
+		local_set_current_move(self, Move.Kind.SHOOT)
+	elif __input.is_action_pressed("kick"):
+		local_set_current_move(self, Move.Kind.KICK)
+	elif __input.is_action_pressed("punch"):
+		local_set_current_move(self, Move.Kind.PUNCH)
+	
+	input_move.emit(self, _current_move.kind);
