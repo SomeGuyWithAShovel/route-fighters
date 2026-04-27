@@ -2,11 +2,13 @@ extends Node2D
 class_name Character
 
 var player_id : int; # Set par le coordinateur, pas touche !
+var ping_calculator : PingCalculator;
 
 # Code pour la gestion des inputs du personnage
 
 signal input_move(character : Character, move : Move.Kind);
 signal move_prediction_is_different(character : Character, old_move_info : MoveInformation, new_move_info : MoveInformation);
+
 
 var _current_move : MoveInformation;
 var current_move : MoveInformation :
@@ -18,9 +20,14 @@ var current_move : MoveInformation :
 			move_prediction_is_different.emit(self, _current_move, new_move);
 			_current_move = new_move;
 
+func local_set_current_move(_character : Character, move : Move.Kind) -> void:
+	var server_time := ping_calculator.get_server_time();
+	var move_info := MoveInformation.new(global_position, server_time, move);
+	set_current_move(move_info);
 
 func _ready() -> void:
 	print("Indice du joueur : ", player_id);
+	input_move.connect(local_set_current_move);
 
 func show_move(_move : Move.Kind, _frame : int) -> void:
 	# TODO
