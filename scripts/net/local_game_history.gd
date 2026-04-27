@@ -11,7 +11,6 @@ extends RefCounted
 const MAX_MOVES_IN_UDP_PACKET := 1024;
 
 var moves : Array[MoveInformation];
-# TODO : L'array action_buffer à couper de sorte à ce que ça rentre sur le réseau
 var server_time : int;
 var player_id : int;
 

@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://ct3c50dcuclxp"]
+
+[ext_resource type="Script" uid="uid://f3g7ax4sgs40" path="res://scenes/tests/test_ggpo.gd" id="1_0o5ri"]
+[ext_resource type="Script" uid="uid://dx2gsxh7gc7h7" path="res://scripts/global_coordinator.gd" id="2_im4bc"]
+[ext_resource type="Script" uid="uid://d1ig7dy5bo6qp" path="res://scripts/net/multiplayer_api_coordinator.gd" id="3_r6uix"]
+[ext_resource type="Script" uid="uid://cdgodqmhbllvw" path="res://scripts/net/players_coordinator.gd" id="4_d4u6h"]
+[ext_resource type="PackedScene" uid="uid://bhd0xfjk8p0tp" path="res://scenes/temp_player_to_remove.tscn" id="5_xkf30"]
+
+[node name="Node2D" type="Node2D" unique_id=2033289761]
+script = ExtResource("1_0o5ri")
+local_moves = Array[int]([1, 1, 2, 3, 5, 3])
+local_position = Array[Vector2]([Vector2(0, 0), Vector2(-1, 0), Vector2(-2, 0), Vector2(-1, 0), Vector2(-1, 0), Vector2(-1, 0)])
+local_start = 100
+remote_moves = Array[int]([1, 1, 2, 3, 4])
+remote_positions = Array[Vector2]([Vector2(0, 0), Vector2(-1, 0), Vector2(-2, 0), Vector2(-1, 0), Vector2(-1, 0)])
+remote_start = 100
+
+[node name="Node2D" type="Node2D" parent="." unique_id=273673908]
+script = ExtResource("2_im4bc")
+
+[node name="MultiplayerAPICoordinator" type="Node" parent="Node2D" unique_id=558864360]
+script = ExtResource("3_r6uix")
+metadata/_custom_type_script = "uid://d1ig7dy5bo6qp"
+
+[node name="PlayersCoordinator" type="Node" parent="Node2D" unique_id=2087606867]
+script = ExtResource("4_d4u6h")
+local_player_scene = ExtResource("5_xkf30")
+remote_player_scene = ExtResource("5_xkf30")
+metadata/_custom_type_script = "uid://cdgodqmhbllvw"
