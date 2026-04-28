@@ -8,6 +8,10 @@ var current_move : MoveInformation :
 	
 var player_id : int;
 var ping_calculator : PingCalculator = null;
+const MAX_HP := 100;
+
+# Envoyé si le joueur se fait taper ou si GGPO change l'attaque du joueur distant
+signal move_interrupted(old_move_info : MoveInformation, new_move_info : MoveInformation);
 
 func _ready() -> void:
 	move_interrupted.connect(update_animated_sprite);
@@ -40,9 +44,6 @@ func update_animated_sprite(_old_move : MoveInformation, new_move : MoveInformat
 			
 	var progress := seconds_to_catch_up_in_anim / get_absolute_frame_duration(anim_name, i);
 	animated_sprite.set_frame_and_progress(i, progress);
-	
-# Envoyé si le joueur se fait taper ou si GGPO change l'attaque du joueur distant
-signal move_interrupted(old_move_info : MoveInformation, new_move_info : MoveInformation);
 
 func get_current_move() -> MoveInformation:
 	return current_move;

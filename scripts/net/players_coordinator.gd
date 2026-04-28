@@ -106,5 +106,6 @@ func Server_player_move(history : NetLocalGameHistory) -> void:
 func Client_receive_player_move(history : NetLocalGameHistory) -> void:
 	var remote_player_input := history.to_player_input();
 	var server_time := ping_calculator.get_server_time();
-	var corrected_move := other_player_inputs[history.player_id].correct_actions(remote_player_input, server_time, ggpo);
+	other_player_inputs[history.player_id].correct_actions(remote_player_input, server_time, ggpo);
+	other_player_inputs[history.player_id]
 	players[history.player_id].set_current_move(corrected_move);

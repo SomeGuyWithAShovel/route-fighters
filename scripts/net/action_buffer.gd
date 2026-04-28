@@ -69,7 +69,7 @@ func find_common_sub_buffer(_net_action_buffer : ActionBuffer) -> CommonIndices:
 		res.cur_first = cur_i;
 	return res;
 	
-func correct_actions(net_action_buffer : ActionBuffer, current_server_time : int, ggpo : GGPO) -> MoveInformation:
+func correct_actions(net_action_buffer : ActionBuffer) -> void:
 	var net_last := net_action_buffer.get_last_move();
 	var cur_last := self.get_last_move();
 	assert(net_last.server_time_started <= cur_last.server_time_started, 
@@ -86,20 +86,20 @@ func correct_actions(net_action_buffer : ActionBuffer, current_server_time : int
 		var net_move := net_action_buffer.player_move_buffer[net_i];
 		add_move(net_move.kind, net_move.position, net_move.server_time_started);
 	
-	return resimulate(current_server_time, ggpo);
+	return get_last_move();
 	
-func resimulate(server_time : int, ggpo : GGPO) -> MoveInformation:
-	var last_move := get_last_move();
+static func resimulate(ggpo_buffer : ActionBuffer, local_buffer : ActionBuffer, server_time : int, ggpo : GGPO) -> MoveInformation:
+	var last_move := ggpo_buffer.get_last_move();
 	var simulation_time := last_move.server_time_started;
 	while simulation_time + Move.duration_in_frames(last_move.kind) < server_time:
 		var move_position := last_move.position + GlobalConstant.TARGET_DELTA_TIME*Move.position_delta(last_move.kind);
 		simulation_time += Move.duration_in_frames(last_move.kind);
-		var move_kind := ggpo.predict_move(self);
+		var move_kind := ggpo.predict_move(ggpo_buffer);
 		
-		add_move(move_kind, move_position, simulation_time);
-		last_move = get_last_move();
+		ggpo_buffer.add_move(move_kind, move_position, simulation_time);
+		last_move = ggpo_buffer.get_last_move();
 		
-	return get_last_move();
+	return ggpo_buffer.get_last_move();
 	
 func get_last_move() -> MoveInformation:
 	return player_move_buffer[newest_frame-1];

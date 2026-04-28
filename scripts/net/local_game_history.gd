@@ -13,6 +13,7 @@ const MAX_MOVES_IN_UDP_PACKET := 1024;
 var moves : Array[MoveInformation];
 var server_time : int;
 var player_id : int;
+var player_hp : int;
 
 
 func _init(_player_id : int, _server_time : int, _action_buffer : ActionBuffer) -> void:
