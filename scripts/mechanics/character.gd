@@ -11,6 +11,7 @@ var ping_calculator : PingCalculator = null;
 
 func _ready() -> void:
 	move_interrupted.connect(update_animated_sprite);
+	animated_sprite.animation_finished.connect(func () : animated_sprite.play("idle"));
 	
 func get_absolute_frame_duration(anim_name : String, frame_index : int) -> float:
 	var playing_speed : float = animated_sprite.get_playing_speed();
@@ -20,6 +21,10 @@ func get_absolute_frame_duration(anim_name : String, frame_index : int) -> float
 	return absolute_frame_duration;
 	
 func update_animated_sprite(_old_move : MoveInformation, new_move : MoveInformation) -> void:
+	# Les moves holdables ne sont pas changé dans les sprites à chaque frame
+	if Move.is_holdable(new_move.kind): 
+		return;
+	
 	var anim_name : String = Move.Kind.keys()[new_move.kind].to_lower;
 	animated_sprite.play(anim_name);
 	var current_time := ping_calculator.get_server_time();
@@ -43,4 +48,5 @@ func get_current_move() -> MoveInformation:
 	return current_move;
 	
 func set_current_move(new_move : MoveInformation) -> void:
+	update_animated_sprite(current_move, new_move);
 	current_move = new_move;
