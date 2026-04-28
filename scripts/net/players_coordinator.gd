@@ -5,6 +5,9 @@ extends Node
 @export var local_player_scene : PackedScene;
 @export var remote_player_scene : PackedScene;
 
+var local_player_script  : Script = preload("res://scripts/mechanics/local_character.gd");
+var remote_player_script : Script = preload("res://scripts/mechanics/remote_character.gd");
+
 var player_starting_positions : Array[Node2D];
 var players_node_parent : Node = null;
 
@@ -36,10 +39,13 @@ func init_from_game_node(game_node : GameNode) -> void :
 
 func create_local_player(player_id : int) -> void :
 	assert(local_player_scene != null);
-	var new_player : Character = local_player_scene.instantiate();
+	var new_player : Node = local_player_scene.instantiate();
 	assert(new_player != null);
 	
+	local_player_scene.set_script(local_player_script);
+	
 	new_player.player_id = player_id;
+	new_player.ping_calculator = ping_calculator;
 	local_player_id = player_id;
 	
 	new_player.transform = player_starting_positions[0].transform;
@@ -55,6 +61,7 @@ func create_local_player(player_id : int) -> void :
 func create_remote_player(player_id : int) -> void :
 	assert(remote_player_scene != null);
 	var new_player = remote_player_scene.instantiate();
+	new_player.set_script(remote_player_script);
 	new_player.player_id = player_id;
 	
 	# TODO: Set sa position, etc..
@@ -72,7 +79,10 @@ func warn_players() -> void:
 	return;
 
 
-func local_player_moved(local_player : Character, move : Move.Kind) -> void :
+func local_player_moved(local_player : LocalCharacter, move : Move.Kind) -> void :
+	if move == Move.Kind.NOTHING:
+		return;
+		
 	var server_time := ping_calculator.get_server_time();
 	local_action_buffer.add_move(move, local_player.global_position, server_time);
 	var net_history := NetLocalGameHistory.new(

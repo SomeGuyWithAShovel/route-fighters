@@ -11,9 +11,11 @@ enum Kind {
 	KICK,
 	PUNCH,
 	GUARD,
-	SHOOT
+	SHOOT,
+	HURT,
 };
 
+# À multiplier par TARGET_DELTA_TIME
 static func position_delta(_move : Kind) -> Vector2:
 	match _move:
 		Kind.LEFT:

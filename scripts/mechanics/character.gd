@@ -1,65 +1,46 @@
 extends Node2D
 class_name Character
 
-var player_id : int; # Set par le coordinateur, pas touche !
-var ping_calculator : PingCalculator;
-
-# Code pour la gestion des inputs du personnage
-
-signal input_move(character : Character, move : Move.Kind);
-signal move_prediction_is_different(character : Character, old_move_info : MoveInformation, new_move_info : MoveInformation);
-
-
-var _current_move : MoveInformation;
+@onready var animated_sprite : AnimatedSprite2D = $"AnimatedSprite2D";
 var current_move : MoveInformation :
-	get:
-		return _current_move;
-	set(new_move):
-		if not _current_move.is_approx_same(new_move):
-			# Se connecter pour modifier l'affichage et/ou des statistiques de mauvaises prédictions
-			move_prediction_is_different.emit(self, _current_move, new_move);
-			_current_move = new_move;
-
-func local_set_current_move(_character : Character, move : Move.Kind) -> void:
-	var server_time := ping_calculator.get_server_time();
-	var move_info := MoveInformation.new(global_position, server_time, move);
-	set_current_move(move_info);
+	get = get_current_move,
+	set = set_current_move;
+	
+var player_id : int;
+var ping_calculator : PingCalculator = null;
 
 func _ready() -> void:
-	print("Indice du joueur : ", player_id);
-	input_move.connect(local_set_current_move);
+	move_interrupted.connect(update_animated_sprite);
+	
+func get_absolute_frame_duration(anim_name : String, frame_index : int) -> float:
+	var playing_speed : float = animated_sprite.get_playing_speed();
+	var animation_fps : float = animated_sprite.sprite_frames.get_animation_speed(anim_name);
+	var relative_frame_duration := animated_sprite.sprite_frames.get_frame_duration(anim_name, frame_index);
+	var absolute_frame_duration : float = relative_frame_duration / (animation_fps * abs(playing_speed));
+	return absolute_frame_duration;
+	
+func update_animated_sprite(_old_move : MoveInformation, new_move : MoveInformation) -> void:
+	var anim_name : String = Move.Kind.keys()[new_move.kind].to_lower;
+	animated_sprite.play(anim_name);
+	var current_time := ping_calculator.get_server_time();
+	var animation_start := new_move.server_time_started;
+	var seconds_to_catch_up_in_anim := float(current_time - animation_start) / 1000;
+	
+	var i := 0;
+	while seconds_to_catch_up_in_anim - get_absolute_frame_duration(anim_name, i) > 0:
+		seconds_to_catch_up_in_anim -= get_absolute_frame_duration(anim_name, i);
+		i += 1;
+		assert(i < animated_sprite.sprite_frames.get_frame_count(anim_name),
+		 "Dernier move trop vieux pour la dernière frame");
+			
+	var progress := seconds_to_catch_up_in_anim / get_absolute_frame_duration(anim_name, i);
+	animated_sprite.set_frame_and_progress(i, progress);
+	
+# Envoyé si le joueur se fait taper ou si GGPO change l'attaque du joueur distant
+signal move_interrupted(old_move_info : MoveInformation, new_move_info : MoveInformation);
 
-func show_move(_move : Move.Kind, _frame : int) -> void:
-	# TODO
-	return;
+func get_current_move() -> MoveInformation:
+	return current_move;
 	
-func is_doing_move() -> bool:
-	return _current_move.kind != Move.Kind.NOTHING;
-	
-func set_current_move(move : MoveInformation) -> void:
-	_current_move = move;
-
-func _input(__input : InputEvent) -> void:
-	
-	# TODO : Traduire input en Move et emit le bon signal
-	
-	# On peut pas faire 2 moves en même temps
-	if is_doing_move(): 
-		return
-	
-	if __input.is_action_pressed("move_left"):
-		local_set_current_move(self, Move.Kind.LEFT)
-		
-	elif __input.is_action_pressed("move_right"):
-		local_set_current_move(self, Move.Kind.RIGHT)
-		
-	elif __input.is_action_pressed("jump"):
-		local_set_current_move(self, Move.Kind.JUMP)
-	elif __input.is_action_pressed("shoot"):
-		local_set_current_move(self, Move.Kind.SHOOT)
-	elif __input.is_action_pressed("kick"):
-		local_set_current_move(self, Move.Kind.KICK)
-	elif __input.is_action_pressed("punch"):
-		local_set_current_move(self, Move.Kind.PUNCH)
-	
-	input_move.emit(self, _current_move.kind);
+func set_current_move(new_move : MoveInformation) -> void:
+	current_move = new_move;

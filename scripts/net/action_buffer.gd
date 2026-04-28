@@ -92,7 +92,7 @@ func resimulate(server_time : int, ggpo : GGPO) -> MoveInformation:
 	var last_move := get_last_move();
 	var simulation_time := last_move.server_time_started;
 	while simulation_time + Move.duration_in_frames(last_move.kind) < server_time:
-		var move_position := last_move.position + Move.position_delta(last_move.kind);
+		var move_position := last_move.position + GlobalConstant.TARGET_DELTA_TIME*Move.position_delta(last_move.kind);
 		simulation_time += Move.duration_in_frames(last_move.kind);
 		var move_kind := ggpo.predict_move(self);
 		
