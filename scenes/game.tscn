@@ -1,15 +1,8 @@
 [gd_scene format=3 uid="uid://57h88y3sgdsr"]
 
 [ext_resource type="Script" uid="uid://cdxkij2mpuun7" path="res://scripts/game.gd" id="1_uwrxv"]
-
-[sub_resource type="Gradient" id="Gradient_8cj0n"]
-colors = PackedColorArray(0, 0, 1, 1, 0, 1, 1, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_uwrxv"]
-gradient = SubResource("Gradient_8cj0n")
-width = 1152
-height = 648
-fill_to = Vector2(0, 1)
+[ext_resource type="Texture2D" uid="uid://f7hg1fd0ptbr" path="res://assets/background/fg.png" id="2_lnu2h"]
+[ext_resource type="Texture2D" uid="uid://ct3olrl0c1iel" path="res://assets/background/bg.png" id="3_lbhrr"]
 
 [sub_resource type="Gradient" id="Gradient_uwrxv"]
 offsets = PackedFloat32Array(0.95, 1)
@@ -25,18 +18,45 @@ fill_to = Vector2(1, 0.5)
 script = ExtResource("1_uwrxv")
 players_parent_node = NodePath("Players")
 player_starting_nodes = [NodePath("Players/StartPos1"), NodePath("Players/StartPos2")]
+metadata/_edit_vertical_guides_ = [-319.0]
 
-[node name="Background" type="Sprite2D" parent="." unique_id=643138190]
-texture = SubResource("GradientTexture2D_uwrxv")
-centered = false
+[node name="Container" type="Control" parent="." unique_id=1924663848]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="TextureRect" parent="Container" unique_id=1913253837]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_lbhrr")
+stretch_mode = 4
+
+[node name="Foreground" type="TextureRect" parent="Container" unique_id=1643411717]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_lnu2h")
+stretch_mode = 4
 
 [node name="Players" type="Node2D" parent="." unique_id=1351940845]
-position = Vector2(576, 648)
+position = Vector2(800, 343)
 
 [node name="StartPos1" type="Sprite2D" parent="Players" unique_id=1571291786]
-position = Vector2(-407, -130)
+position = Vector2(-600, -64)
+scale = Vector2(-2, 2)
 texture = SubResource("GradientTexture2D_yqjtg")
 
 [node name="StartPos2" type="Sprite2D" parent="Players" unique_id=121035891]
-position = Vector2(438, -114)
+position = Vector2(600, -64)
+scale = Vector2(2, 2)
 texture = SubResource("GradientTexture2D_yqjtg")
