@@ -79,7 +79,7 @@ func _ready() -> void :
 	return;
 
 func player_joined() -> void :
-	print("PLAYER_HUD : ", get_transform());
+	# print("PLAYER_HUD : ", get_transform());
 	set_progress_100(100.0);
 	show();
 	return;

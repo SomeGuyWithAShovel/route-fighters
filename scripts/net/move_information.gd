@@ -1,5 +1,5 @@
-extends Object
 class_name MoveInformation
+extends RefCounted
 	
 # Envoyé sur le réseau dans un historique
 	

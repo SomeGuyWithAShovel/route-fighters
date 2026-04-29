@@ -1,7 +1,16 @@
 # @tool
 
-extends Node2D
 class_name Character
+extends Node2D
+
+# dans la scène player, on a :
+# Node2D                  <- ne possède pas de script DANS L'ÉDITEUR
+#  L Player               <- possède ce script
+#     L CollisionShape2D  
+#     L AnimationPlayer   
+#
+# Node2D n'a pas de script dans la scène dans l'éditeur, mais un script lui est attaché
+# à la construction d'un player (dans PlayersCoordinator), soit local_character.gd, soit remote_character.gd
 
 @export var anim_sprite_scenes : Array[PackedScene] = [
 	preload("res://scenes/visuals/ken.tscn"),
@@ -43,7 +52,7 @@ var animated_sprite : AnimatedSprite2D = null;
 
 #endregion
 
-var current_move : MoveInformation :
+var current_move : MoveInformation = MoveInformation.new(Vector2.ZERO, 0, Move.Kind.NOTHING) :
 	get = get_current_move,
 	set = set_current_move;
 	
@@ -67,7 +76,6 @@ func set_player_id(new_id : int) -> void :
 	return;
 
 func init_player(new_id : int, start_pos : Transform2D) -> void :
-	print("init_player");
 	set_player_id(new_id);
 	
 	# see PlayersCoordinator::get_character_from_player comments
@@ -75,7 +83,7 @@ func init_player(new_id : int, start_pos : Transform2D) -> void :
 	assert(parent_node != null);
 	parent_node.global_transform = start_pos;
 	
-	print("init_player : sprite ", animated_sprite, " and transform ", global_transform);
+	# print("init_player : sprite ", animated_sprite, " and transform ", global_transform);
 	
 	# moved from _ready()
 	move_interrupted.connect(update_animated_sprite);
@@ -89,6 +97,8 @@ func _ready() -> void:
 	assert(anim_sprite_scenes.size() == 2);
 	assert(anim_sprite_scenes[0] != null);
 	assert(anim_sprite_scenes[1] != null);
+	
+	assert(current_move != null);
 	return;
 
 func get_absolute_frame_duration(anim_name : String, frame_index : int) -> float:

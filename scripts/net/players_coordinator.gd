@@ -9,10 +9,10 @@ signal player_destroyed(player_id : int);
 var has_been_init : bool = false;
 
 @export_group("Player Scene")
-@export var player_scene : PackedScene;
+@export var player_scene : PackedScene = preload("res://scenes/visuals/player.tscn");
 
-var local_player_script  : Script = preload("res://scripts/mechanics/local_character.gd");
-var remote_player_script : Script = preload("res://scripts/mechanics/remote_character.gd");
+@export var local_player_script  : Script = preload("res://scripts/mechanics/local_character.gd");
+@export var remote_player_script : Script = preload("res://scripts/mechanics/remote_character.gd");
 
 var player_starting_positions : Array[Transform2D];
 var players_node_parent : Node = null;
@@ -70,9 +70,9 @@ func get_character_from_player(player_node : Node2D) -> Character :
 # common between local and remote player
 func create_player(player_id : int) -> Node2D :
 	if (has_been_init == false) :
-		print("create_player : await start");
+		# print("create_player : await start");
 		await on_init;
-		print("create_player : await end");
+		# print("create_player : await end");
 		pass;
 	
 	var pl_start : Transform2D = player_starting_positions[1];
@@ -99,7 +99,11 @@ func create_local_player(player_id : int) -> void :
 	assert(new_player != null);
 	
 	local_player_id = player_id;
-	# new_player.set_script(local_player_script);
+	new_player.set_script(local_player_script);
+	var local_character : LocalCharacter = new_player as LocalCharacter;
+	assert(local_character != null);
+	local_character.init();
+	
 	# new_player.ping_calculator = ping_calculator;
 	# new_player.input_move.connect(local_player_moved);
 	
