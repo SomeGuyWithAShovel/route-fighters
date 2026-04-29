@@ -23,6 +23,7 @@ func init() -> void  :
 	
 	set_process(true);
 	set_physics_process(true);
+	set_process_input(true);
 	
 	
 	print("Indice du joueur : ", char_node.player_id);
@@ -64,9 +65,8 @@ func _physics_process(delta: float) -> void:
 		position.y = GlobalConstant.GROUND_Y;
 
 # should be _unhandled_input, but it doesn't work
-# _input doesn't work either.........
 func _input(input: InputEvent) -> void :
-	print("ADZA?POZD?PANZD");
+	# print("local_character::input");
 	var move := Move.Kind.NOTHING;
 	
 	if input.is_action_pressed("jump") :
@@ -97,11 +97,12 @@ func _input(input: InputEvent) -> void :
 		move = Move.Kind.PUNCH;
 		pass;
 	
-	print_move_kind(move);
+	print("local_character input : ", get_move_kind_string(move));
 	input_move.emit(move);
 	return;
 
-func print_move_kind(_move : Move.Kind) -> void :
+# TODO : move in the Move class, or something simmilar
+func get_move_kind_string(_move : Move.Kind) -> String :
 	var msg : String;
 	match _move:
 		Move.Kind.LEFT:
@@ -116,5 +117,4 @@ func print_move_kind(_move : Move.Kind) -> void :
 			msg = "JUMP_RIGHT";
 		_:
 			msg = "NOTHING";
-	print(msg);
-	return;
+	return msg;

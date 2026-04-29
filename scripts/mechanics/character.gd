@@ -56,7 +56,7 @@ var current_move : MoveInformation = MoveInformation.new(Vector2.ZERO, 0, Move.K
 	get = get_current_move,
 	set = set_current_move;
 	
-var ping_calculator : PingCalculator = null;
+@export var ping_calculator : PingCalculator = null;
 
 #region player_init : id, sprite and transform
 var player_id : int = 0;
@@ -99,6 +99,7 @@ func _ready() -> void:
 	assert(anim_sprite_scenes[1] != null);
 	
 	assert(current_move != null);
+	assert(ping_calculator != null);
 	return;
 
 func get_absolute_frame_duration(anim_name : String, frame_index : int) -> float:
@@ -113,7 +114,7 @@ func update_animated_sprite(_old_move : MoveInformation, new_move : MoveInformat
 	if (Move.is_holdable(new_move.kind)) : 
 		return;
 	
-	var anim_name : String = Move.Kind.keys()[new_move.kind].to_lower;
+	var anim_name : String = Move.Kind.keys()[new_move.kind].to_lower();
 	animated_sprite.play(anim_name);
 	var current_time := ping_calculator.get_server_time();
 	var animation_start := new_move.server_time_started;

@@ -1,15 +1,20 @@
 [gd_scene format=3 uid="uid://b06lhgiibdt53"]
 
 [ext_resource type="Script" uid="uid://8y4e31bl2inu" path="res://scripts/mechanics/character.gd" id="1_l21u0"]
+[ext_resource type="Script" uid="uid://dijjsr3o6nk7v" path="res://scripts/net/ping_calculator.gd" id="2_svp1u"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_adtho"]
 
 [node name="Node2D" type="Node2D" unique_id=906088690]
 
-[node name="Player" type="CharacterBody2D" parent="." unique_id=732812710]
+[node name="Player" type="CharacterBody2D" parent="." unique_id=732812710 node_paths=PackedStringArray("ping_calculator")]
 script = ExtResource("1_l21u0")
+ping_calculator = NodePath("PingCalculator")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1407755865]
 shape = SubResource("RectangleShape2D_adtho")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Player" unique_id=1992900785]
+
+[node name="PingCalculator" type="Node" parent="Player" unique_id=1158455509]
+script = ExtResource("2_svp1u")
