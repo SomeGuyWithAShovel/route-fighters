@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://f7hg1fd0ptbr" path="res://assets/background/fg.png" id="2_lnu2h"]
 [ext_resource type="Texture2D" uid="uid://ct3olrl0c1iel" path="res://assets/background/bg.png" id="3_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://f007y8owyfua" path="res://scenes/ui/game_countdown.tscn" id="4_lbhrr"]
+[ext_resource type="PackedScene" uid="uid://ibtpo43q621c" path="res://scenes/ui/player_hud.tscn" id="5_iywne"]
 
 [sub_resource type="Gradient" id="Gradient_uwrxv"]
 offsets = PackedFloat32Array(0.95, 1)
@@ -15,15 +16,15 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(1, 0.5)
 
-[node name="Game" type="Node" unique_id=1922453534 node_paths=PackedStringArray("players_parent_node", "player_starting_nodes", "countdown")]
+[node name="Game" type="Node" unique_id=1922453534 node_paths=PackedStringArray("players_parent_node", "player_starting_nodes", "countdown", "players_hud")]
 script = ExtResource("1_uwrxv")
-players_parent_node = NodePath("Players")
-player_starting_nodes = [NodePath("Players/StartPos1"), NodePath("Players/StartPos2")]
-countdown = NodePath("Container/Countdown")
+players_parent_node = NodePath("PlayersParentNode")
+player_starting_nodes = [NodePath("PlayersParentNode/StartPos1"), NodePath("PlayersParentNode/StartPos2")]
+countdown = NodePath("UI/Level/Countdown")
+players_hud = [NodePath("UI/PlayersUI/Player01HUD"), NodePath("UI/PlayersUI/Player02HUD")]
 metadata/_edit_vertical_guides_ = [-319.0]
 
-[node name="Container" type="Control" parent="." unique_id=1924663848]
-texture_filter = 1
+[node name="UI" type="Control" parent="." unique_id=61134135]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -31,7 +32,16 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Background" type="TextureRect" parent="Container" unique_id=1913253837]
+[node name="Level" type="Control" parent="UI" unique_id=1924663848]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="TextureRect" parent="UI/Level" unique_id=1913253837]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -41,7 +51,7 @@ grow_vertical = 2
 texture = ExtResource("3_lbhrr")
 stretch_mode = 4
 
-[node name="Foreground" type="TextureRect" parent="Container" unique_id=1643411717]
+[node name="Foreground" type="TextureRect" parent="UI/Level" unique_id=1643411717]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -51,18 +61,42 @@ grow_vertical = 2
 texture = ExtResource("2_lnu2h")
 stretch_mode = 4
 
-[node name="Countdown" parent="Container" unique_id=519337768 instance=ExtResource("4_lbhrr")]
+[node name="Countdown" parent="UI/Level" unique_id=519337768 instance=ExtResource("4_lbhrr")]
 position = Vector2(800, 64)
 
-[node name="Players" type="Node2D" parent="." unique_id=1351940845]
+[node name="PlayersUI" type="Control" parent="UI" unique_id=680479234]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+
+[node name="Player01HUD" parent="UI/PlayersUI" unique_id=965378144 instance=ExtResource("5_iywne")]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 520.0
+offset_bottom = 72.0
+
+[node name="Player02HUD" parent="UI/PlayersUI" unique_id=222592132 instance=ExtResource("5_iywne")]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -520.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = 72.0
+grow_horizontal = 0
+
+[node name="PlayersParentNode" type="Node2D" parent="." unique_id=1351940845]
 position = Vector2(800, 343)
 
-[node name="StartPos1" type="Sprite2D" parent="Players" unique_id=1571291786]
+[node name="StartPos1" type="Sprite2D" parent="PlayersParentNode" unique_id=1571291786]
 position = Vector2(-600, -64)
 scale = Vector2(-2, 2)
 texture = SubResource("GradientTexture2D_yqjtg")
 
-[node name="StartPos2" type="Sprite2D" parent="Players" unique_id=121035891]
+[node name="StartPos2" type="Sprite2D" parent="PlayersParentNode" unique_id=121035891]
 position = Vector2(600, -64)
 scale = Vector2(2, 2)
 texture = SubResource("GradientTexture2D_yqjtg")

@@ -3,6 +3,9 @@ extends Node
 
 
 signal on_init();
+signal player_created(player_id : int);
+signal player_destroyed(player_id : int);
+
 var has_been_init : bool = false;
 
 @export_group("Player Scene")
@@ -31,6 +34,7 @@ var ggpo : GGPO;
 var other_player_inputs : Dictionary[int, ActionBuffer];
 
 var on_game_ready : Callable;
+var on_game_canceled : Callable;
 
 func init_from_game_node(game_node : GameNode) -> void :
 	assert(game_node != null);
@@ -47,6 +51,7 @@ func init_from_game_node(game_node : GameNode) -> void :
 	players_node_parent = game_node.players_parent_node;
 	
 	on_game_ready = game_node.start_game;
+	on_game_canceled = game_node.cancel_game;
 	
 	has_been_init = true;
 	on_init.emit();
@@ -100,6 +105,8 @@ func create_local_player(player_id : int) -> void :
 	
 	print("local_player created (id:", player_id, ")");
 	
+	player_created.emit(player_id);
+	
 	check_if_game_ready();
 	return;
 
@@ -111,12 +118,18 @@ func create_remote_player(player_id : int) -> void :
 	
 	print("remote_player created (id:", player_id, ")");
 	
+	player_created.emit(player_id);
+	
 	check_if_game_ready();
 	return;
 
 func check_if_game_ready() -> void :
 	if (players.size() >= 2) :
 		on_game_ready.call();
+		pass;
+	else :
+		on_game_canceled.call();
+		pass;
 	return;
 
 func remove_player(player_id : int) -> void :
@@ -128,6 +141,10 @@ func remove_player(player_id : int) -> void :
 	player_node.queue_free();
 	players.erase(player_id);
 	print("removed player ", player_id);
+	
+	player_destroyed.emit(player_id);
+	
+	check_if_game_ready();
 	return;
 
 @rpc("any_peer", "call_remote", "reliable")

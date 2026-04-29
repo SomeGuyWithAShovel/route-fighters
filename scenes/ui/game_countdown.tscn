@@ -1,95 +1,18 @@
 [gd_scene format=3 uid="uid://f007y8owyfua"]
 
-[ext_resource type="Texture2D" uid="uid://d3cdbff1d1rmc" path="res://assets/text.png" id="1_v8q2x"]
+[ext_resource type="SpriteFrames" uid="uid://bw3876umpxfyg" path="res://assets/text/big_numbers.tres" id="2_87scw"]
 [ext_resource type="Script" uid="uid://c0wrbg8hbwxhk" path="res://scripts/menus/game_countdown.gd" id="2_eth81"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_iywne"]
-atlas = ExtResource("1_v8q2x")
-region = Rect2(86, 164, 16, 26)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_p57ef"]
-atlas = ExtResource("1_v8q2x")
-region = Rect2(102, 164, 16, 26)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_u5sy4"]
-atlas = ExtResource("1_v8q2x")
-region = Rect2(118, 164, 16, 26)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_gee14"]
-atlas = ExtResource("1_v8q2x")
-region = Rect2(134, 164, 16, 26)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_0tnpc"]
-atlas = ExtResource("1_v8q2x")
-region = Rect2(150, 164, 16, 26)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_vtaks"]
-atlas = ExtResource("1_v8q2x")
-region = Rect2(166, 164, 16, 26)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_kvpfn"]
-atlas = ExtResource("1_v8q2x")
-region = Rect2(182, 164, 16, 26)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_dinhu"]
-atlas = ExtResource("1_v8q2x")
-region = Rect2(198, 164, 16, 26)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_kvuet"]
-atlas = ExtResource("1_v8q2x")
-region = Rect2(214, 164, 16, 26)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_trtic"]
-atlas = ExtResource("1_v8q2x")
-region = Rect2(230, 164, 16, 26)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_ir15t"]
-animations = [{
-"frames": [{
-"duration": 5.0,
-"texture": SubResource("AtlasTexture_iywne")
-}, {
-"duration": 5.0,
-"texture": SubResource("AtlasTexture_p57ef")
-}, {
-"duration": 5.0,
-"texture": SubResource("AtlasTexture_u5sy4")
-}, {
-"duration": 5.0,
-"texture": SubResource("AtlasTexture_gee14")
-}, {
-"duration": 5.0,
-"texture": SubResource("AtlasTexture_0tnpc")
-}, {
-"duration": 5.0,
-"texture": SubResource("AtlasTexture_vtaks")
-}, {
-"duration": 5.0,
-"texture": SubResource("AtlasTexture_kvpfn")
-}, {
-"duration": 5.0,
-"texture": SubResource("AtlasTexture_dinhu")
-}, {
-"duration": 5.0,
-"texture": SubResource("AtlasTexture_kvuet")
-}, {
-"duration": 5.0,
-"texture": SubResource("AtlasTexture_trtic")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
+[ext_resource type="SpriteFrames" uid="uid://dtggyaqtv0ktc" path="res://assets/text/fight.tres" id="3_87scw"]
 
 [node name="Countdown" type="Node2D" unique_id=1935666435 node_paths=PackedStringArray("anim_sprite", "one_sec_timer")]
 script = ExtResource("2_eth81")
 anim_sprite = NodePath("AnimatedSprite2D")
 one_sec_timer = NodePath("AnimatedSprite2D/Timer")
+sprite_frame_countdown = ExtResource("2_87scw")
+sprite_frame_fight = ExtResource("3_87scw")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=519337768]
 scale = Vector2(3, 3)
-sprite_frames = SubResource("SpriteFrames_ir15t")
-frame = 2
 
 [node name="Timer" type="Timer" parent="AnimatedSprite2D" unique_id=1444587897]
 one_shot = true
