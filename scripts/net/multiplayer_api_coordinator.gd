@@ -66,7 +66,7 @@ func join_server(ip_address : String = "127.0.0.1") -> void :
 	if error != OK:
 		printerr("Could not join server \"", ip_address, "\" (error ", error, ")");
 		return;
-	print("MultiplayerAPICoordinator : client joined (", ip_address, ")");
+	print("MultiplayerAPICoordinator : trying to join ", ip_address, "...");
 	multiplayer_api.multiplayer_peer = peer;
 	return;
 

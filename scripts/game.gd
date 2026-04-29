@@ -7,6 +7,7 @@ signal on_ready();
 @export var player_starting_nodes : Array[Node2D];
 
 func _ready() -> void :
+	init_players_coordinator();
 	for node : Node2D in player_starting_nodes :
 		node.hide();
 		pass;

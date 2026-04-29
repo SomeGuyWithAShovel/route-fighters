@@ -1,6 +1,5 @@
 [gd_scene format=3 uid="uid://bjiwfby08ii7s"]
 
-[ext_resource type="PackedScene" uid="uid://b06lhgiibdt53" path="res://scenes/visuals/player.tscn" id="1_cgdan"]
 [ext_resource type="Texture2D" uid="uid://cygsiexplibau" path="res://assets/animations/ryu_guard.png" id="2_0xd2s"]
 [ext_resource type="Texture2D" uid="uid://chi1f66m0evce" path="res://assets/animations/ryu_idle.png" id="3_8p6jp"]
 [ext_resource type="Texture2D" uid="uid://cws1crm7fgrbn" path="res://assets/animations/ryu_hurt.png" id="3_k4e4v"]
@@ -332,10 +331,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Node" type="Node2D" unique_id=1354944682]
-
-[node name="Player" parent="." unique_id=2038331640 instance=ExtResource("1_cgdan")]
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=999083783]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" unique_id=999083783]
 sprite_frames = SubResource("SpriteFrames_epwb1")
 animation = &"idle"

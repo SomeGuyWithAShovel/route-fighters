@@ -1,6 +1,5 @@
 [gd_scene format=3 uid="uid://blkayxqxngxau"]
 
-[ext_resource type="PackedScene" uid="uid://b06lhgiibdt53" path="res://scenes/visuals/player.tscn" id="1_anvrq"]
 [ext_resource type="Texture2D" uid="uid://crlwsb5skm3yf" path="res://assets/animations/ken_guard.png" id="2_x7gpa"]
 [ext_resource type="Texture2D" uid="uid://cw3oo6iwa7f1q" path="res://assets/animations/ken_hurt.png" id="3_6mq6k"]
 [ext_resource type="Texture2D" uid="uid://ub5bhauiq08t" path="res://assets/animations/ken_idle.png" id="3_da5rq"]
@@ -332,10 +331,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Node" type="Node2D" unique_id=1714301152]
-
-[node name="Player" parent="." unique_id=1220903932 instance=ExtResource("1_anvrq")]
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=1407327946]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" unique_id=1407327946]
 sprite_frames = SubResource("SpriteFrames_swjo3")
 animation = &"right"

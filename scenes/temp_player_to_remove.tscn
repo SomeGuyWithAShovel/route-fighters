@@ -1,10 +1,29 @@
 [gd_scene format=3 uid="uid://bhd0xfjk8p0tp"]
 
 [ext_resource type="Script" uid="uid://8y4e31bl2inu" path="res://scripts/mechanics/character.gd" id="1_6gqf7"]
-[ext_resource type="Texture2D" uid="uid://cygsiexplibau" path="res://assets/animations/ryu_guard.png" id="1_mxj2r"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mxj2r"]
+
+[sub_resource type="Gradient" id="Gradient_uwrxv"]
+offsets = PackedFloat32Array(0.95, 1)
+colors = PackedColorArray(1, 0, 0, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_6gqf7"]
+gradient = SubResource("Gradient_uwrxv")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
 
 [node name="Node2D" type="Node2D" unique_id=1446872133]
+
+[node name="Player" type="CharacterBody2D" parent="." unique_id=373096312]
 script = ExtResource("1_6gqf7")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1955005097]
-texture = ExtResource("1_mxj2r")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1208480204]
+shape = SubResource("RectangleShape2D_mxj2r")
+
+[node name="StartPos1" type="Sprite2D" parent="Player" unique_id=767842362]
+z_index = 500
+texture = SubResource("GradientTexture2D_6gqf7")

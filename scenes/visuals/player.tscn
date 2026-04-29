@@ -4,10 +4,12 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_adtho"]
 
-[node name="Player" type="CharacterBody2D" unique_id=732812710]
+[node name="Node2D" type="Node2D" unique_id=906088690]
+
+[node name="Player" type="CharacterBody2D" parent="." unique_id=732812710]
 script = ExtResource("1_l21u0")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1992900785]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Player" unique_id=1992900785]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1407755865]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1407755865]
 shape = SubResource("RectangleShape2D_adtho")

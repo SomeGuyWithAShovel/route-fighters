@@ -1,18 +1,96 @@
+# @tool
+
 extends Node2D
 class_name Character
 
-@onready var animated_sprite : AnimatedSprite2D = $"AnimatedSprite2D";
+@export var anim_sprite_scenes : Array[PackedScene] = [
+	preload("res://scenes/visuals/ken.tscn"),
+	preload("res://scenes/visuals/ryu.tscn"),
+];
+
+var animated_sprite : AnimatedSprite2D = null;
+
+#region test_debug_animated_sprite
+#
+#@export_group("editor_anim_sprite_DEBUG_ONLY_RESET_BEFORE_START_OR_SAVE")
+#
+#@export_tool_button("set_host")
+#var editor_set_host_var = editor_set_host;
+#func editor_set_host() -> void :
+	#print("editor_set_host");
+	#editor_reset();
+	#set_player_id(1);
+	#return;
+#
+#@export_tool_button("set_remote")
+#var editor_set_remote_var = editor_set_remote;
+#func editor_set_remote() -> void :
+	#print("editor_set_remote");
+	#editor_reset();
+	#set_player_id(2);
+	#return;
+#
+#@export_tool_button("reset")
+#var editor_reset_var = editor_reset;
+#func editor_reset() -> void :
+	#print("editor_reset");
+	#if (animated_sprite == null) :
+		#return;
+	#animated_sprite.queue_free();
+	#animated_sprite = null;
+	#return;
+#@export_group("")
+
+#endregion
+
 var current_move : MoveInformation :
 	get = get_current_move,
 	set = set_current_move;
 	
-var player_id : int;
 var ping_calculator : PingCalculator = null;
 
-func _ready() -> void:
+#region player_init : id, sprite and transform
+var player_id : int = 0;
+func set_player_id(new_id : int) -> void :
+	if (animated_sprite != null) :
+		pass;
+	var sprite_id : int = 0;
+	if (new_id != 1) :
+		sprite_id = 1;
+	assert(anim_sprite_scenes.size() == 2);
+	assert((sprite_id >= 0) && (sprite_id <= 1));
+	var new_sprite_node : AnimatedSprite2D = anim_sprite_scenes[sprite_id].instantiate() as AnimatedSprite2D;
+	assert(new_sprite_node != null);
+	
+	add_child(new_sprite_node);
+	animated_sprite = new_sprite_node;
+	return;
+
+func init_player(new_id : int, start_pos : Transform2D) -> void :
+	print("init_player");
+	set_player_id(new_id);
+	
+	# see PlayersCoordinator::get_character_from_player comments
+	var parent_node : Node2D = get_parent() as Node2D;
+	assert(parent_node != null);
+	parent_node.global_transform = start_pos;
+	
+	print("init_player : sprite ", animated_sprite, " and transform ", global_transform);
+	
+	# moved from _ready()
 	move_interrupted.connect(update_animated_sprite);
 	animated_sprite.animation_finished.connect(func () : animated_sprite.play("idle"));
-	
+	return;
+
+#endregion
+
+func _ready() -> void:
+	print("player._ready()");
+	assert(anim_sprite_scenes.size() == 2);
+	assert(anim_sprite_scenes[0] != null);
+	assert(anim_sprite_scenes[1] != null);
+	return;
+
 func get_absolute_frame_duration(anim_name : String, frame_index : int) -> float:
 	var playing_speed : float = animated_sprite.get_playing_speed();
 	var animation_fps : float = animated_sprite.sprite_frames.get_animation_speed(anim_name);
@@ -21,8 +99,8 @@ func get_absolute_frame_duration(anim_name : String, frame_index : int) -> float
 	return absolute_frame_duration;
 	
 func update_animated_sprite(_old_move : MoveInformation, new_move : MoveInformation) -> void:
-	# Les moves holdables ne sont pas changé dans les sprites à chaque frame
-	if Move.is_holdable(new_move.kind): 
+	# Les moves holdables ne sont pas changés dans les sprites à chaque frame
+	if (Move.is_holdable(new_move.kind)) : 
 		return;
 	
 	var anim_name : String = Move.Kind.keys()[new_move.kind].to_lower;

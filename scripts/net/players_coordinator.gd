@@ -1,25 +1,29 @@
 class_name PlayersCoordinator
 extends Node
 
-@export_group("Player Scenes")
-@export var local_player_scene : PackedScene;
-@export var remote_player_scene : PackedScene;
+
+signal on_init();
+var has_been_init : bool = false;
+
+@export_group("Player Scene")
+@export var player_scene : PackedScene;
 
 var local_player_script  : Script = preload("res://scripts/mechanics/local_character.gd");
 var remote_player_script : Script = preload("res://scripts/mechanics/remote_character.gd");
 
-var player_starting_positions : Array[Node2D];
+var player_starting_positions : Array[Transform2D];
 var players_node_parent : Node = null;
 
-var players : Dictionary[int, Character] = {};
-# we should use somewhere our own system of player ids,
+var players : Dictionary[int, Node2D] = {};
 # because server is player 1 and client is player 992135560 (it's random)
-# I don't think we want an array of size 992135560 just for 2 elements
+# I don't think we want an array of size 992135560 just for 2 elements.
+# That's why it's a Dictionary[int, T] and not an Array[T]
 
 var ping_calculator : PingCalculator = null;
 
 var local_player_id : int;
 var local_action_buffer : ActionBuffer;
+var local_action_buffer_last_time_received : float;
 var ggpo : GGPO;
 
 # C'est pas beaucoup plus dur ni lourd d'implémenter pour n joueurs, même si on en a que 2
@@ -29,47 +33,89 @@ var other_player_inputs : Dictionary[int, ActionBuffer];
 func init_from_game_node(game_node : GameNode) -> void :
 	assert(game_node != null);
 	
-	assert(game_node.player_starting_positions.size() == 2);
-	assert(game_node.player_starting_positions[0] != null);
-	assert(game_node.player_starting_positions[1] != null);
-	player_starting_positions = game_node.player_starting_positions;
+	assert(game_node.player_starting_nodes.size() == 2);
+	assert(game_node.player_starting_nodes[0] != null);
+	assert(game_node.player_starting_nodes[1] != null);
 	
-	assert(game_node.player)
+	player_starting_positions.resize(2);
+	player_starting_positions[0] = game_node.player_starting_nodes[0].global_transform;
+	player_starting_positions[1] = game_node.player_starting_nodes[1].global_transform;
+	
+	assert(game_node.players_parent_node != null);
+	players_node_parent = game_node.players_parent_node;
+	
+	has_been_init = true;
+	on_init.emit();
 	return;
 
-func create_local_player(player_id : int) -> void :
-	assert(local_player_scene != null);
-	var new_player : Node = local_player_scene.instantiate();
+# I didn't fully understood what you did, so I kept as it was :
+# a Node2D scene root on which we attach the script local_player or remote_player at runtime,
+# with a Character child node that is common between local and remote
+#
+# this function gets the Character child node from the Node2D scene root
+func get_character_from_player(player_node : Node2D) -> Character :
+	if (player_node == null) :
+		return null;
+	return (player_node.get_child(0) as Character);
+
+# common between local and remote player
+func create_player(player_id : int) -> Node2D :
+	if (has_been_init == false) :
+		print("create_player : await start");
+		await on_init;
+		print("create_player : await end");
+		pass;
+	
+	var pl_start : Transform2D = player_starting_positions[1];
+	if (player_id == 1) :
+		pl_start =  player_starting_positions[0];
+		pass;
+	
+	assert(player_scene != null);
+	var new_player : Node = player_scene.instantiate();
 	assert(new_player != null);
-	
-	local_player_scene.set_script(local_player_script);
-	
-	new_player.player_id = player_id;
-	new_player.ping_calculator = ping_calculator;
-	local_player_id = player_id;
-	
-	new_player.transform = player_starting_positions[0].transform;
-	
 	assert(players_node_parent != null);
 	players_node_parent.add_child(new_player);
 	
-	new_player.input_move.connect(local_player_moved);
 	players[player_id] = new_player;
 	
+	var char_node : Character = get_character_from_player(new_player);
+	assert(char_node != null);
+	char_node.init_player(player_id, pl_start);
+	
+	return new_player;
+
+func create_local_player(player_id : int) -> void :
+	var new_player : Node = await create_player(player_id);
+	assert(new_player != null);
+	
+	local_player_id = player_id;
+	# new_player.set_script(local_player_script);
+	# new_player.ping_calculator = ping_calculator;
+	# new_player.input_move.connect(local_player_moved);
+	
+	print("local_player created (id:", player_id, ")");
 	return;
 
 func create_remote_player(player_id : int) -> void :
-	assert(remote_player_scene != null);
-	var new_player = remote_player_scene.instantiate();
-	new_player.set_script(remote_player_script);
-	new_player.player_id = player_id;
+	var new_player : Node = await create_player(player_id);
+	assert(new_player != null);
 	
-	# TODO: Set sa position, etc..
-	assert(players_node_parent != null);
-	players_node_parent.add_child(new_player);
-	players[player_id] = new_player;
+	#new_player.set_script(remote_player_script);
+	
+	print("remote_player created (id:", player_id, ")");
 	return;
+
+func remove_player(player_id : int) -> void :
+	var player_node : Node2D = players.get(player_id);
+	if (player_node == null) :
+		print("PlayersCoordinator::remove_player(", player_id, ") : player_id wasn't in the players dictionary");
+		return;
 	
+	player_node.queue_free();
+	players.erase(player_id);
+	print("removed player ", player_id);
+	return;
 
 @rpc("any_peer", "call_remote", "reliable")
 func warn_players() -> void:
@@ -80,9 +126,9 @@ func warn_players() -> void:
 
 
 func local_player_moved(local_player : LocalCharacter, move : Move.Kind) -> void :
-	if move == Move.Kind.NOTHING:
+	if (move == Move.Kind.NOTHING):
 		return;
-		
+	
 	var server_time := ping_calculator.get_server_time();
 	local_action_buffer.add_move(move, local_player.global_position, server_time);
 	var net_history := NetLocalGameHistory.new(
