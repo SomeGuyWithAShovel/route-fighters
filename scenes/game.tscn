@@ -90,7 +90,7 @@ offset_bottom = 72.0
 grow_horizontal = 0
 
 [node name="PlayersParentNode" type="Node2D" parent="." unique_id=1351940845]
-position = Vector2(800, 343)
+position = Vector2(800, 266)
 
 [node name="StartPos1" type="Sprite2D" parent="PlayersParentNode" unique_id=1571291786]
 position = Vector2(-600, -64)

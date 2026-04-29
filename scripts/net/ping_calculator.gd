@@ -16,7 +16,7 @@ var last_calculated_server_time : int;
 # Temps client associé au temps serveur le plus récent enregistré
 var associated_client_time : int;
 
-var send_pings_timer : Timer;
+@export var send_pings_timer : Timer;
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

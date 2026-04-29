@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://ccbc4lqdn278g"]
+
+[ext_resource type="Script" uid="uid://dijjsr3o6nk7v" path="res://scripts/net/ping_calculator.gd" id="1_e10r2"]
+
+[node name="PingCalculator" type="Node" unique_id=1995203435 node_paths=PackedStringArray("send_pings_timer")]
+script = ExtResource("1_e10r2")
+send_pings_timer = NodePath("Timer")
+
+[node name="Timer" type="Timer" parent="." unique_id=1078660904]

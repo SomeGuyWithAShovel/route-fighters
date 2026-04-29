@@ -16,5 +16,8 @@ shape = SubResource("RectangleShape2D_adtho")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Player" unique_id=1992900785]
 
-[node name="PingCalculator" type="Node" parent="Player" unique_id=1158455509]
+[node name="PingCalculator" type="Node" parent="Player" unique_id=1158455509 node_paths=PackedStringArray("send_pings_timer")]
 script = ExtResource("2_svp1u")
+send_pings_timer = NodePath("Timer")
+
+[node name="Timer" type="Timer" parent="Player/PingCalculator" unique_id=1469311666]
