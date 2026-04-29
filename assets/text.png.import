@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dq8r7rbj7epl7"
-path="res://.godot/imported/ryu_jump.png-c0e6992111dfbbd632de58c861f0e186.ctex"
+uid="uid://d3cdbff1d1rmc"
+path="res://.godot/imported/text.png-e3ddd9f9b1b7d9168ee5ca3d96c1bf48.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/animations/ryu_jump.png"
-dest_files=["res://.godot/imported/ryu_jump.png-c0e6992111dfbbd632de58c861f0e186.ctex"]
+source_file="res://assets/text.png"
+dest_files=["res://.godot/imported/text.png-e3ddd9f9b1b7d9168ee5ca3d96c1bf48.ctex"]
 
 [params]
 
