@@ -3,10 +3,12 @@ extends Node
 
 signal on_ready();
 
-@export var players_parent_node : Node2D;
-@export var player_starting_nodes : Array[Node2D];
+@export var players_parent_node : Node2D = null;
+@export var player_starting_nodes : Array[Node2D] = [null, null];
+@export var countdown : GameCountdown = null;
 
 func _ready() -> void :
+	assert(countdown != null);
 	init_players_coordinator();
 	for node : Node2D in player_starting_nodes :
 		node.hide();
@@ -17,4 +19,8 @@ func init_players_coordinator() -> void :
 	GlobalCoordinator.players_coordinator.init_from_game_node(self);
 	
 	on_ready.emit(); # idk if here is good or not
+	return;
+
+func start_game() -> void :
+	countdown.start();
 	return;

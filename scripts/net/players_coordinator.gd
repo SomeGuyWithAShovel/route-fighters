@@ -30,6 +30,8 @@ var ggpo : GGPO;
 # dictionnaire player_id -> action_buffer
 var other_player_inputs : Dictionary[int, ActionBuffer];
 
+var on_game_ready : Callable;
+
 func init_from_game_node(game_node : GameNode) -> void :
 	assert(game_node != null);
 	
@@ -43,6 +45,8 @@ func init_from_game_node(game_node : GameNode) -> void :
 	
 	assert(game_node.players_parent_node != null);
 	players_node_parent = game_node.players_parent_node;
+	
+	on_game_ready = game_node.start_game;
 	
 	has_been_init = true;
 	on_init.emit();
@@ -95,6 +99,8 @@ func create_local_player(player_id : int) -> void :
 	# new_player.input_move.connect(local_player_moved);
 	
 	print("local_player created (id:", player_id, ")");
+	
+	check_if_game_ready();
 	return;
 
 func create_remote_player(player_id : int) -> void :
@@ -104,6 +110,13 @@ func create_remote_player(player_id : int) -> void :
 	#new_player.set_script(remote_player_script);
 	
 	print("remote_player created (id:", player_id, ")");
+	
+	check_if_game_ready();
+	return;
+
+func check_if_game_ready() -> void :
+	if (players.size() >= 2) :
+		on_game_ready.call();
 	return;
 
 func remove_player(player_id : int) -> void :

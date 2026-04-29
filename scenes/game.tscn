@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cdxkij2mpuun7" path="res://scripts/game.gd" id="1_uwrxv"]
 [ext_resource type="Texture2D" uid="uid://f7hg1fd0ptbr" path="res://assets/background/fg.png" id="2_lnu2h"]
 [ext_resource type="Texture2D" uid="uid://ct3olrl0c1iel" path="res://assets/background/bg.png" id="3_lbhrr"]
+[ext_resource type="PackedScene" uid="uid://f007y8owyfua" path="res://scenes/ui/game_countdown.tscn" id="4_lbhrr"]
 
 [sub_resource type="Gradient" id="Gradient_uwrxv"]
 offsets = PackedFloat32Array(0.95, 1)
@@ -14,13 +15,15 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(1, 0.5)
 
-[node name="Game" type="Node" unique_id=1922453534 node_paths=PackedStringArray("players_parent_node", "player_starting_nodes")]
+[node name="Game" type="Node" unique_id=1922453534 node_paths=PackedStringArray("players_parent_node", "player_starting_nodes", "countdown")]
 script = ExtResource("1_uwrxv")
 players_parent_node = NodePath("Players")
 player_starting_nodes = [NodePath("Players/StartPos1"), NodePath("Players/StartPos2")]
+countdown = NodePath("Container/Countdown")
 metadata/_edit_vertical_guides_ = [-319.0]
 
 [node name="Container" type="Control" parent="." unique_id=1924663848]
+texture_filter = 1
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -47,6 +50,9 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_lnu2h")
 stretch_mode = 4
+
+[node name="Countdown" parent="Container" unique_id=519337768 instance=ExtResource("4_lbhrr")]
+position = Vector2(800, 64)
 
 [node name="Players" type="Node2D" parent="." unique_id=1351940845]
 position = Vector2(800, 343)
